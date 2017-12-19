@@ -1,1 +1,2 @@
-# Final_Project_Work_Out_App
+# strength-training-app
+Individual Project
