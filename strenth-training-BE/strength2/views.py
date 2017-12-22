@@ -27,3 +27,16 @@ def WorkOutDataSave (request):
             serializer.save()
 
     return Response({'status': 'OK'})
+
+@api_view(['POST'])
+def SaveThingData (request):
+        contacts = request.data['thingdata']
+        thingData = [contacts]
+        for c in thingData:
+            instance = WorkOutDataForm.objects.filter(key=c['key']).first()
+
+            serializer = WorkoutSerializer(data=c, instance=instance)
+            if serializer.is_valid(raise_exception=True):
+                serializer.save()
+
+        return Response({'status': 'OK'})
