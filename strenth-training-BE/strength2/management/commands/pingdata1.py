@@ -16,6 +16,13 @@ def on_message(client, userdata, msg):
     print("topic: "+msg.topic)
     print("payload: "+str(msg.payload))
 
+    c = msg.payload
+    instance = WorkOutDataForm.objects.filter(key=c['key']).first()
+
+    serializer = WorkoutSerializer(data=c, instance=instance)
+    if serializer.is_valid(raise_exception=True):
+        serializer.save()
+
 class Command(BaseCommand):
     help = 'Subscribe to thing data'
 
