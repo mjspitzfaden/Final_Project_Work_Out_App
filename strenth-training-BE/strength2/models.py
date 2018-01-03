@@ -5,7 +5,7 @@ from django.conf import settings
 # Create your models here.
 
 class WorkOutDataForm(models.Model):
-    userName:models.ForeignKey('UserDataForm', on_delete=models.CASCADE)
+    userName = models.ForeignKey('UserDataForm', on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
     key = models.SlugField(max_length=50, unique=True, primary_key=True)
     exersise = models.CharField(max_length=50)

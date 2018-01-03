@@ -1,10 +1,15 @@
 from django.core.management.base import BaseCommand, CommandError
+from strength2.models import WorkOutDataForm
+from strength2.serializers import WorkoutSerializer
+from rest_framework.response import Response
 
 from strength2.models import WorkOutDataForm
 import paho.mqtt.client as paho
 import os
 import socket
 import ssl
+import json
+import datetime
 
 def on_connect(client, userdata, flags, rc):
     print("Connection returned result: " + str(rc) )
@@ -16,12 +21,22 @@ def on_message(client, userdata, msg):
     print("topic: "+msg.topic)
     print("payload: "+str(msg.payload))
 
-    c = msg.payload
-    instance = WorkOutDataForm.objects.filter(key=c['key']).first()
+    jsonData = msg.payload
+    jsonToPython = json.loads(jsonData)
+    print("payload: "+ str(jsonToPython['date']))
+    dateTime = datetime.datetime.fromtimestamp(jsonToPython['date'])
+    jsonToPython['date'] = dateTime
+    contacts = [jsonToPython]
+    for c in contacts:
+        instance = WorkOutDataForm.objects.filter(key=c['key']).first()
 
-    serializer = WorkoutSerializer(data=c, instance=instance)
-    if serializer.is_valid(raise_exception=True):
-        serializer.save()
+        serializer = WorkoutSerializer(data=c, instance=instance)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+
+    return Response({'status': 'OK'})
+
+
 
 class Command(BaseCommand):
     help = 'Subscribe to thing data'
