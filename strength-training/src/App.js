@@ -12,6 +12,7 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import ListExampleFolder from './cover';
 import MyForm from './myform';
 import MyDelete from './delete';
+import UserDataForm from './userdataform';
 import MyList from './list';
 import startpng from './start.png';
 import Picture from './picture';
@@ -55,6 +56,7 @@ class App extends Component {
               <Switch>
                 <Route exact path="/" component={Pic}/>
                 <Route path="/add" component={MyForm}/>
+                <Route path="/userData" component={UserDataForm}/>
                 <Route path="/list" component={MyList}/>
                 <Route path="/edit/:id" component={MyForm}/>
                 <Route path="/delete/:id" component={MyDelete}/>

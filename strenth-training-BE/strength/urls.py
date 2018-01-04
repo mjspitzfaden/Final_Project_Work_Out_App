@@ -24,6 +24,6 @@ urlpatterns = [
     path('save-contacts', strength2.views.WorkOutDataSave),
     #path('user-save'), strength2.views.UserDataSave),
     #path('user'), strength2.views.UserData),
-    path('thingdata', strength2.views.SaveThingData),
+    path('userData', strength2.views.SaveUserData),
     path('admin/', admin.site.urls),
 ]

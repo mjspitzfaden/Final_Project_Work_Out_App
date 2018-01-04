@@ -4,6 +4,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 
 from strength2.models import WorkOutDataForm
+from strength2.models import UserDataForm
 from strength2.serializers import WorkoutSerializer
 #from blog.serializers import PostSerializer
 # Create your views here.
@@ -29,14 +30,13 @@ def WorkOutDataSave (request):
     return Response({'status': 'OK'})
 
 @api_view(['POST'])
-def SaveThingData (request):
-        contacts = request.data['thingdata']
-        thingData = [contacts]
-        for c in thingData:
-            instance = WorkOutDataForm.objects.filter(key=c['key']).first()
+def SaveUserData (request):
+        c = request.data
 
-            serializer = WorkoutSerializer(data=c, instance=instance)
-            if serializer.is_valid(raise_exception=True):
-                serializer.save()
+        instance = UserDataForm.objects.filter(key=c['key']).first()
+
+        serializer = WorkoutSerializer(data=c, instance=instance)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
 
         return Response({'status': 'OK'})
