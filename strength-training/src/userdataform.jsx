@@ -57,9 +57,9 @@ class UserDataFormComponent extends Component {
 
     event.preventDefault();
 
-    axios.post('http://localhost:8000/userData', {userName: this.props.user.uid ,userName: this.state.name, BMI: this.state.BMI, weight: this.state.weight, date: this.state.date, waist: this.state.waist, email: this.state.email})
+    axios.post('http://localhost:8000/userData', {userName_id: this.props.user.uid ,Name: this.state.name, BMI: this.state.BMI, weight: this.state.weight, date: this.state.date, waist: this.state.waist, email: this.state.email})
       .then(() => {
-        this.props.onSubmit({userName: this.props.user.uid ,userName: this.state.name, BMI: this.state.BMI, weight: this.state.weight, date: this.state.date, waist: this.state.waist, email: this.state.email});
+        this.props.onSubmit({userName_id: this.props.user.uid ,Name: this.state.name, BMI: this.state.BMI, weight: this.state.weight, date: this.state.date, waist: this.state.waist, email: this.state.email});
         this.props.history.push("/list");
       })
       .catch(() => {
