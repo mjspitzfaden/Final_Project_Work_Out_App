@@ -9,6 +9,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
+import axios from 'axios';
 import database, {User} from './database';
 import './App.css';
 
@@ -17,13 +18,33 @@ import {Link} from 'react-router-dom';
 class MyListComponent extends Component {
   constructor(props) {
     super(props);
-    console.log(props)
-    this.history = props.history;
 
+    this.history = props.history;
+    this.state = {contacts: []};
+    this.getData(props);
+  }
+
+  componentWillReceiveProps (nextProps) {
+    this.getData(nextProps);
+  }
+
+  getData(props) {
+    console.log('getting list');
+    if (props.user.uid) {
+      axios.get('http://localhost:8000/userDataNumbers?userName=' + props.user.uid)
+      .then((response) => {
+       var contacts = response.data;
+       console.log('contact are', contacts);
+       this.setState({contacts: contacts});
+     });
+   }
   }
 
 
+
+
   showInfo(event, key) {
+
     let exersiseIndex = this.props.contacts.findIndex((contact)=>{
       if (contact.key === key) {return contact}
     })
@@ -32,8 +53,12 @@ class MyListComponent extends Component {
   }
 
 render() {
-  var list = this.props.contacts.map((exersise, index) => {
+  console.log('here is the list', this.state);
+  console.log(this.props);
+
+  var list = this.state.contacts.map((exersise, index) => {
     console.log('person is',exersise)
+    console.log('data is', this.state)
     if(exersise.clicked){
       return (<li key={exersise.key} onClick={(event)=>this.showInfo(event, exersise.key)}>
       <p> Workout: {exersise.name} Date: {exersise.date} Exersise: {exersise.exersise} Weight: {exersise.weight} Reps: {exersise.reps} Distance: {exersise.distance} Time: {exersise.time}</p>

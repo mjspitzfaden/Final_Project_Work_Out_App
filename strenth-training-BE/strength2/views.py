@@ -24,7 +24,7 @@ def WorkOutDataSave (request):
     for c in contacts:
         instance = WorkOutDataForm.objects.filter(key=c['key']).first()
 
-        serializer = WorkoutSerializer(instance=instance)
+        serializer = WorkoutSerializer(instance=instance, data=c)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
 
@@ -44,17 +44,9 @@ def SaveUserData (request):
 
 
 @api_view(['GET'])
-def get_queryset(self):
-    result = super(BlogSearchListView, self).get_queryset()
-
-    query = self.request.GET.get('userName', 'name', 'exersise', 'date', 'weight', 'reps', 'distance', 'time')
-    if query:
-        query_list = query.split()
-        result = result.filter(
-                reduce(operator.and_,
-                       (Q(title__icontains=q) for q in query_list)) |
-                reduce(operator.and_,
-                       (Q(content__icontains=q) for q in query_list))
-            )
-
-        return result
+def UserDataNumbers(request):
+    userName = request.GET.get('userName')
+    print (userName)
+    result = WorkOutDataForm.objects.filter(userName__userName_id=userName)
+    serializer = WorkoutSerializer(result, many=True)
+    return Response(serializer.data)
