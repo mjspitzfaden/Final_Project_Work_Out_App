@@ -46,7 +46,12 @@ def SaveUserData (request):
 @api_view(['GET'])
 def UserDataNumbers(request):
     userName = request.GET.get('userName')
-    print (userName)
     result = WorkOutDataForm.objects.filter(userName__userName_id=userName)
     serializer = WorkoutSerializer(result, many=True)
     return Response(serializer.data)
+
+@api_view(['GET'])
+def deleteEntry(request):
+    delete_key = request.GET.get('deleteEntry')
+    WorkOutDataForm.objects.filter(key=delete_key).delete()
+    return Response({'status': 'OK'})

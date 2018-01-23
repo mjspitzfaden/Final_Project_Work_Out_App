@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import AppBar from 'material-ui/AppBar';
 import { connect } from 'react-redux';
 import {deleteAttr} from './actions.js';
+import axios from 'axios';
 
 import uid from 'uid'
 import {Card, CardActions, CardTitle, CardText} from 'material-ui/Card';
@@ -21,7 +22,7 @@ class MyDeleteComponent extends Component {
 
 
     this.state = {
-      key: props.match.params.id, 
+      key: props.match.params.id,
       contacts: []
     };
   }
@@ -29,12 +30,21 @@ class MyDeleteComponent extends Component {
 
 
   deletePerson(event) {
-    var key = this.props.key;
+    var key = this.props.match.params.id;
     let idIndex = this.props.contacts.findIndex((contact)=>{
       if (contact.key === key) {return contact}
     })
       this.props.onSubmit(idIndex);
-      this.props.history.push('/list')
+
+
+        axios.get('http://localhost:8000/deleteEntry?deleteEntry=' + key)
+        .then((response) => {
+            this.props.history.push('/list');
+       })
+       .catch(function (e) {
+         alert('Error deleting entry.');
+       });
+
     }
 
     sort_contacts(temp_contacts) {

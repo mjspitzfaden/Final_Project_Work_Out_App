@@ -45,7 +45,7 @@ class MyListComponent extends Component {
 
   showInfo(event, key) {
 
-    let exersiseIndex = this.props.contacts.findIndex((contact)=>{
+    let exersiseIndex = this.state.contacts.findIndex((contact)=>{
       if (contact.key === key) {return contact}
     })
     this.props.onClick(exersiseIndex);

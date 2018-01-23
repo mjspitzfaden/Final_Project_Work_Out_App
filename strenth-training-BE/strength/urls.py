@@ -26,5 +26,6 @@ urlpatterns = [
     #path('user'), strength2.views.UserData),
     path('userData', strength2.views.SaveUserData),
     path('userDataNumbers', strength2.views.UserDataNumbers),
+    path('deleteEntry', strength2.views.deleteEntry),
     path('admin/', admin.site.urls),
 ]

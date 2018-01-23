@@ -28,7 +28,7 @@ class Pic extends Component {
       <div className = "login">
         <h5> Click on image to Login </h5>
       </div>
-      <Link to={'/add'}>
+      <Link to={'/list'}>
         <Img className = "start" src={goalpng} onClick={() => this.login()}/>
       </Link>
     </div>
